@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/app.css') }}">
+
+  <title>Property Price Prediction using Linear Regression</title>
+</head>
+<body class="dark-mode">
+  <div class="container">
+    <header>
+      <h1>Property Price Prediction using Linear Regression</h1>
+    </header>
+    <main>
+      <form action="{{ url_for('form') }}" method="post">
+        <label for="location">Property Location:</label>
+  <select id="location" name="location"></select>
+  <script>
+      // Fetch JSON data
+      fetch("{{ url_for('static', filename='columns.json') }}")
+          .then(response => response.json())
+          .then(data => {
+              // Get the select element
+              const selectElement = document.getElementById('location');
+
+              // Loop through the options in the JSON data and create option elements
+              data.locations.forEach(location => {
+                  const optionElement = document.createElement('option');
+                  optionElement.value = location;
+                  optionElement.textContent = location;
+                  selectElement.appendChild(optionElement);
+              });
+          })
+          .catch(error => {
+              console.error('Error fetching JSON:', error);
+          });
+  </script>
+
+        <label for="square-feet">Square Feet:</label>
+        <input type="number" id="square-feet" name="square_feet" required>
+
+        <label for="bedrooms">Bedrooms:</label>
+        <input type="number" id="bedrooms" name="bedrooms" required>
+
+        <label for="bathrooms">Bathrooms:</label>
+        <input type="number" id="bathrooms" name="bathrooms" required>
+
+        <button type="submit">Predict Price</button>
+      </form>
+
+      <div id="output" class="output-section">
+        <h2>Property Price Prediction:</h2>
+        <p id="predicted_price">{{ predicted_price }}</p>
+      </div>
+    </main>
+    <footer>
+      <p>Project by Suraj R S, Dept. of ISE, RNSIT</p>
+    </footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
